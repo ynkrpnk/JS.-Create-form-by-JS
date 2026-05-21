@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.main-container {
+    background-color: #3eaaf4;
+    width: 100%;
+    max-width: 650px;
+    margin: 35px auto;
+}
+
+.header {
+    padding: 30px;
+    text-align: center;
+    color: white;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.form-container {
+    background-color: #3eaaf4;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.input-container {
+    width: calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-container input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.radio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.radio-outer {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    border: 2px solid white;
+}
+
+.checkbox-container {
+    color: white;
+    font-size: 14px;
+}
+
+.button-container button {
+    width: 100%;
+    padding: 20px;
+    background-color: #28d2d0;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.button-container button:hover {
+    background-color: #1eb9b7;
+}
+
+.radio-title {
+    display: block; 
+    font-weight: bold;
+    color: white;
+}
+
+.radio-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+}
