@@ -132,14 +132,14 @@ inputWrapper.appendChild(inputContainer2);
 
 radioInner.appendChild(radioTitle);
 radioInner.appendChild(radioText);
-radioOuter.appendChild(radioInner);
-radioGroup.appendChild(radio); 
+radioOuter.appendChild(radio);      
+radioOuter.appendChild(radioInner); 
 radioGroup.appendChild(radioOuter);
 
 innerCreative.appendChild(titleCreative);
 innerCreative.appendChild(textCreative);
+labelCreative.appendChild(radioCreative);
 labelCreative.appendChild(innerCreative);
-radioGroupCreative.appendChild(radioCreative);
 radioGroupCreative.appendChild(labelCreative);
 
 radioContainer.appendChild(radioGroup);

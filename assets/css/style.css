@@ -64,6 +64,7 @@ body {
     flex-direction: row;
     padding: 15px;
     border: 2px solid white;
+    gap: 15px;
 }
 
 .checkbox-container {
