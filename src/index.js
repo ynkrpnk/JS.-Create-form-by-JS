@@ -27,26 +27,35 @@ inputContainer2.className = 'input-container';
 const textInputFirstName = document.createElement('input'); 
 textInputFirstName.type = 'text';
 textInputFirstName.placeholder = 'First name'; 
+textInputFirstName.required = true;
+textInputFirstName.dataset.field = 'firstName';
 
 const textInputLastName = document.createElement('input'); 
 textInputLastName.type = 'text';
 textInputLastName.placeholder = 'Last Name';
+textInputLastName.dataset.field = 'lastName';
 
 const textInputDisplayName = document.createElement('input');
 textInputDisplayName.type = 'text';
 textInputDisplayName.placeholder = 'Display Name'; 
+textInputDisplayName.dataset.field = 'displayName';
 
 const textInputEmailAddress = document.createElement('input'); 
 textInputEmailAddress.type = 'email'; 
 textInputEmailAddress.placeholder = 'Email Address';
+textInputEmailAddress.required = true;
+textInputEmailAddress.dataset.field = 'emailAddress';
 
 const textInputPassword = document.createElement('input'); 
 textInputPassword.type = 'password'; 
 textInputPassword.placeholder = 'Password';
+textInputPassword.required = true;
+textInputPassword.dataset.field = 'password';
 
 const textInputPasswordConfirmation = document.createElement('input'); 
 textInputPasswordConfirmation.type = 'password'; 
 textInputPasswordConfirmation.placeholder = 'Password Confirmation';
+textInputPasswordConfirmation.dataset.field = 'passwordConfirmation';
 
 const radioContainer = document.createElement('div');
 radioContainer.className = 'radio-container';
@@ -159,3 +168,24 @@ container.appendChild(headContainer);
 container.appendChild(formContainer); 
 
 document.body.appendChild(container);
+
+class Person {
+  constructor(...args) {
+   args.forEach(({name, value}) => this[name] = value)
+  }
+}
+
+formContainer.addEventListener('submit', (event) => {
+  event.preventDefault();
+ 
+  const fields = [...formContainer.querySelectorAll('input[data-field]')]
+    .map(input => ({ name: input.dataset.field, value: input.value }));
+ 
+  const person = new Person(...fields);
+ 
+  localStorage.setItem(person.lastName, JSON.stringify(person));
+ 
+  console.log('Збережено:', person);
+});
+
+
