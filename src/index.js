@@ -184,8 +184,6 @@ formContainer.addEventListener('submit', (event) => {
   const person = new Person(...fields);
  
   localStorage.setItem(person.lastName, JSON.stringify(person));
- 
-  console.log('Збережено:', person);
 });
 
 
