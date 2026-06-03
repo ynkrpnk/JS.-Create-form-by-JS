@@ -29,6 +29,7 @@ textInputFirstName.type = 'text';
 textInputFirstName.placeholder = 'First name'; 
 textInputFirstName.required = true;
 textInputFirstName.dataset.field = 'firstName';
+textInputFirstName.addEventListener('input', checkForm);
 
 const textInputLastName = document.createElement('input'); 
 textInputLastName.type = 'text';
@@ -41,21 +42,24 @@ textInputDisplayName.placeholder = 'Display Name';
 textInputDisplayName.dataset.field = 'displayName';
 
 const textInputEmailAddress = document.createElement('input'); 
-textInputEmailAddress.type = 'email'; 
+textInputEmailAddress.type = 'text';
 textInputEmailAddress.placeholder = 'Email Address';
-textInputEmailAddress.required = true;
 textInputEmailAddress.dataset.field = 'emailAddress';
+textInputEmailAddress.id = 'email';
+textInputEmailAddress.addEventListener('input', checkForm);
 
 const textInputPassword = document.createElement('input'); 
 textInputPassword.type = 'password'; 
 textInputPassword.placeholder = 'Password';
 textInputPassword.required = true;
 textInputPassword.dataset.field = 'password';
+textInputPassword.addEventListener('input', checkForm);
 
 const textInputPasswordConfirmation = document.createElement('input'); 
 textInputPasswordConfirmation.type = 'password'; 
 textInputPasswordConfirmation.placeholder = 'Password Confirmation';
 textInputPasswordConfirmation.dataset.field = 'passwordConfirmation';
+textInputPasswordConfirmation.addEventListener('input', checkForm);
 
 const radioContainer = document.createElement('div');
 radioContainer.className = 'radio-container';
@@ -124,6 +128,7 @@ buttonContainer.className = 'button-container';
 const submitButtonContainer = document.createElement('button');
 submitButtonContainer.type = 'submit';
 submitButtonContainer.textContent = 'Create account';
+submitButtonContainer.disabled = true;
 
 headContainer.appendChild(h1Container);
 headContainer.appendChild(pContainer);
@@ -171,19 +176,58 @@ document.body.appendChild(container);
 
 class Person {
   constructor(...args) {
-   args.forEach(({name, value}) => this[name] = value)
+   args.forEach(({name, value}) => this[name] = value);
   }
 }
 
 formContainer.addEventListener('submit', (event) => {
   event.preventDefault();
- 
+
+  if (!validationEmail(email.value)) {
+    showError();
+    return; 
+  }
+
   const fields = [...formContainer.querySelectorAll('input[data-field]')]
     .map(input => ({ name: input.dataset.field, value: input.value }));
  
   const person = new Person(...fields);
- 
   localStorage.setItem(person.lastName, JSON.stringify(person));
+  
 });
 
+function validationEmail(email) {
+  const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  return reg.test(String(email).toLowerCase());
+}
 
+const email = document.getElementById('email');
+
+const emailError = document.createElement('span');
+emailError.className = 'error';
+textInputEmailAddress.insertAdjacentElement('afterend', emailError);
+
+email.addEventListener('input', function () {
+  if (email.value === '') {
+    emailError.textContent = 'You need to enter an e-mail address (example@gmail.com)';
+    emailError.className = 'error active';
+  } else if (!validationEmail(email.value)) {
+    showError();
+  } else {
+    emailError.textContent = '';
+    emailError.className = 'error';
+  }
+});
+
+function showError() {
+  emailError.textContent = 'Entered value needs to be an e-mail address (example@gmail.com).';
+  emailError.className = 'error active';
+}
+
+function checkForm() {
+  const firstNameFilled = textInputFirstName.value.trim() !== '';
+  const passwordFilled = textInputPassword.value.trim() !== '';
+  const emailValid = validationEmail(textInputEmailAddress.value);
+
+  submitButtonContainer.disabled = !(firstNameFilled && passwordFilled && emailValid);
+}

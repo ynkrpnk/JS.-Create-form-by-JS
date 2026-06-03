@@ -95,3 +95,19 @@ body {
     font-size: 13px;
     color: rgba(255, 255, 255, 0.9);
 }
+
+.error {
+  display: none; 
+}
+
+.error.active {
+  display: block;
+  border: 2px solid red;
+  border-radius: 15px;
+  text-align: center;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
