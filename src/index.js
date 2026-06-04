@@ -28,23 +28,23 @@ const textInputFirstName = document.createElement('input');
 textInputFirstName.type = 'text';
 textInputFirstName.placeholder = 'First name'; 
 textInputFirstName.required = true;
-textInputFirstName.dataset.field = 'firstName';
+textInputFirstName.name = 'firstName';
 textInputFirstName.addEventListener('input', checkForm);
 
 const textInputLastName = document.createElement('input'); 
 textInputLastName.type = 'text';
 textInputLastName.placeholder = 'Last Name';
-textInputLastName.dataset.field = 'lastName';
+textInputLastName.name = 'lastName';
 
 const textInputDisplayName = document.createElement('input');
 textInputDisplayName.type = 'text';
 textInputDisplayName.placeholder = 'Display Name'; 
-textInputDisplayName.dataset.field = 'displayName';
+textInputDisplayName.name = 'displayName';
 
 const textInputEmailAddress = document.createElement('input'); 
 textInputEmailAddress.type = 'text';
 textInputEmailAddress.placeholder = 'Email Address';
-textInputEmailAddress.dataset.field = 'emailAddress';
+textInputEmailAddress.name = 'emailAddress';
 textInputEmailAddress.id = 'email';
 textInputEmailAddress.addEventListener('input', checkForm);
 
@@ -52,14 +52,12 @@ const textInputPassword = document.createElement('input');
 textInputPassword.type = 'password'; 
 textInputPassword.placeholder = 'Password';
 textInputPassword.required = true;
-textInputPassword.dataset.field = 'password';
 textInputPassword.id = 'password';
 textInputPassword.addEventListener('input', checkForm);
 
 const textInputPasswordConfirmation = document.createElement('input'); 
 textInputPasswordConfirmation.type = 'password'; 
 textInputPasswordConfirmation.placeholder = 'Password Confirmation';
-textInputPasswordConfirmation.dataset.field = 'passwordConfirmation';
 textInputPasswordConfirmation.id = 'passwordConfirmation';
 textInputPasswordConfirmation.addEventListener('input', checkForm);
 
@@ -185,17 +183,8 @@ class Person {
 formContainer.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  if (!validationEmail(email.value)) {
-    showError();
-    return; 
-  }
-
-  const fields = [...formContainer.querySelectorAll('input[data-field]')]
-    .map(input => ({ name: input.dataset.field, value: input.value }));
- 
-  const person = new Person(...fields);
-  localStorage.setItem(person.lastName, JSON.stringify(person));
-  
+  const data = Object.fromEntries(new FormData(formContainer));
+  localStorage.setItem(data.lastName, JSON.stringify(data));
 });
 
 function validationEmail(email) {
