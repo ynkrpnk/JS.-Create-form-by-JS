@@ -53,12 +53,14 @@ textInputPassword.type = 'password';
 textInputPassword.placeholder = 'Password';
 textInputPassword.required = true;
 textInputPassword.dataset.field = 'password';
+textInputPassword.id = 'password';
 textInputPassword.addEventListener('input', checkForm);
 
 const textInputPasswordConfirmation = document.createElement('input'); 
 textInputPasswordConfirmation.type = 'password'; 
 textInputPasswordConfirmation.placeholder = 'Password Confirmation';
 textInputPasswordConfirmation.dataset.field = 'passwordConfirmation';
+textInputPasswordConfirmation.id = 'passwordConfirmation';
 textInputPasswordConfirmation.addEventListener('input', checkForm);
 
 const radioContainer = document.createElement('div');
@@ -202,32 +204,62 @@ function validationEmail(email) {
 }
 
 const email = document.getElementById('email');
+const password = document.getElementById('password');
+const passwordConfirmation = document.getElementById('passwordConfirmation');
 
 const emailError = document.createElement('span');
 emailError.className = 'error';
 textInputEmailAddress.insertAdjacentElement('afterend', emailError);
+
+const passwordError = document.createElement('span');
+passwordError.className = 'error';
+textInputPassword.insertAdjacentElement('afterend', passwordError);
+
+const passwordConfirmationError = document.createElement('span');
+passwordConfirmationError.className = 'error';
+textInputPasswordConfirmation.insertAdjacentElement('afterend', passwordConfirmationError); // ← було passwordConfirmation (інпут)
 
 email.addEventListener('input', function () {
   if (email.value === '') {
     emailError.textContent = 'You need to enter an e-mail address (example@gmail.com)';
     emailError.className = 'error active';
   } else if (!validationEmail(email.value)) {
-    showError();
+    emailError.textContent = 'Entered value needs to be an e-mail address (example@gmail.com).';
+    emailError.className = 'error active';
   } else {
     emailError.textContent = '';
     emailError.className = 'error';
   }
 });
 
-function showError() {
-  emailError.textContent = 'Entered value needs to be an e-mail address (example@gmail.com).';
-  emailError.className = 'error active';
+function checkPasswords() {
+  if (password.value && passwordConfirmation.value && password.value !== passwordConfirmation.value) {
+    passwordError.textContent = 'Passwords do not match';
+    passwordError.className = 'error active';
+    passwordConfirmationError.textContent = 'Passwords do not match';
+    passwordConfirmationError.className = 'error active';
+  } else {
+    passwordError.textContent = '';
+    passwordError.className = 'error';
+    passwordConfirmationError.textContent = '';
+    passwordConfirmationError.className = 'error';
+  }
+  checkForm();
 }
+
+password.addEventListener('input', checkPasswords);
+passwordConfirmation.addEventListener('input', checkPasswords);
 
 function checkForm() {
   const firstNameFilled = textInputFirstName.value.trim() !== '';
   const passwordFilled = textInputPassword.value.trim() !== '';
+  const passwordMatch = password.value === passwordConfirmation.value;
   const emailValid = validationEmail(textInputEmailAddress.value);
 
-  submitButtonContainer.disabled = !(firstNameFilled && passwordFilled && emailValid);
+  submitButtonContainer.disabled = !(firstNameFilled && passwordFilled && passwordMatch && emailValid);
 }
+
+textInputFirstName.addEventListener('input', checkForm);
+email.addEventListener('input', checkForm);
+
+
